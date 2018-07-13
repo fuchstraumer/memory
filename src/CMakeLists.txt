@@ -87,7 +87,10 @@ else()
     file(WRITE  ${CMAKE_CURRENT_BINARY_DIR}/container_node_sizes_impl.hpp "")
 endif()
 
-add_library(foonathan_memory ${detail_header} ${header} ${src})
+add_library(foonathan_memory STATIC ${detail_header} ${header} ${src})
+if(MSVC)
+target_compile_options(foonathan_memory PRIVATE "/Gm")
+endif()
 _foonathan_use_comp(foonathan_memory)
 comp_target_features(foonathan_memory PRIVATE CPP11)
 target_include_directories(foonathan_memory PUBLIC $<BUILD_INTERFACE:${FOONATHAN_MEMORY_SOURCE_DIR}/include/> # for client in subdirectory
